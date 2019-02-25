@@ -62,4 +62,27 @@ def choose_first():
 	''' 
 	Choose the first player
 	'''
-    return random.randint(0,1)
+    if random.randint(0,1) == 0:
+        return 'Player 1'
+    else:
+        return 'Player 2'
+
+def space_check(board, position):
+    return (board[position]==' ')
+
+def full_board_check(board):
+    for i in range(1,10):
+        if space_check(board, position):
+            return False
+    return True
+
+def player_choice(board):
+    choice = int(input("Choose your next marker position \n"))
+    return space_check(board, choice)
+
+def replay():
+    replay = input("Do you want to play again, y/n \n")
+    if replay == 'y':
+        return True
+    else: 
+        return False
