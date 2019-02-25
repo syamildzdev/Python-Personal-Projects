@@ -1,9 +1,17 @@
 import os
+import random
+
 
 def clear():
+	'''
+	To clear output in cmd
+	'''
 	os.system('clear')
 
 def display_board(board):
+	'''
+	Display game board
+	'''
     clear()
     
     print('   |   |')
@@ -22,6 +30,9 @@ test_board = ['#','X','O','X','O','X','O','X','O','X']
 display_board(test_board)
 
 def player_input():
+	'''
+	Choose marker
+	'''
     marker = ''
     while not (marker == 'X' or marker == 'O'):
         marker = input("Player 1 : Choose your marker, X or O \n").upper()
@@ -31,3 +42,24 @@ def player_input():
     elif marker == 'X':
         return ('X','O')
 
+def place_marker(board, marker, position):
+    board[position] = marker
+
+def win_check(board, mark):
+	'''
+	Check if a mark has won
+	'''
+    return ((board[1]==mark and board[2]==mark and board[3]==mark) or # Bottom 3
+    (board[1]==mark and board[4]==mark and board[7]==mark) or # Left vertical
+    (board[3]==mark and board[6]==mark and board[9]==mark) or # Right vertical
+    (board[7]==mark and board[8]==mark and board[9]==mark) or # Top 3
+    (board[1]==mark and board[5]==mark and board[9]==mark) or # Diagonal bottom left to right top
+    (board[3]==mark and board[5]==mark and board[7]==mark) or # Diagonal bottom right to left top
+    (board[4]==mark and board[5]==mark and board[6]==mark) or # Middle horizontal
+    (board[2]==mark and board[5]==mark and board[8]==mark)) # Middle vertical
+
+def choose_first():
+	''' 
+	Choose the first player
+	'''
+    return random.randint(0,1)
