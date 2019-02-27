@@ -74,7 +74,7 @@ def full_board_check(board):
 	Check if all positions in the board are fully filled
 	'''
 	for i in range(1,10):
-		if space_check(board, position):
+		if space_check(board, i):
 			return False
 	return True
 
@@ -84,6 +84,7 @@ def player_choice(board):
 	'''
 	choice = int(input("Choose your marker position \n"))
 	while not space_check(board, choice):
+		choice = int(input("That position is not available, choose other position \n"))
 		continue
 
 	return choice
@@ -112,6 +113,7 @@ def main():
 		while game_on:
 			if turn == 'Player 1':
 				display_board(board)
+				print("Player 1's turn \n")
 				position = player_choice(board)
 				place_marker(board, player1, position)
 
@@ -128,6 +130,7 @@ def main():
 						turn = 'Player 2'
 			elif turn == 'Player 2':
 				display_board(board)
+				print("Player 2's turn \n")
 				position = player_choice(board)
 				place_marker(board, player2, position)
 
