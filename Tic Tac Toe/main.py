@@ -96,9 +96,17 @@ def replay():
 	'''
 	replay = input("Do you want to play again, y/n \n")
 	if replay == 'y':
+		clear()
 		return True
 	else: 
 		return False
+
+def check_input(input):
+	if not type(input) ==  'int':
+		print("Incorrect input ! Try again")
+		return False
+	else:
+		return True
 
 def main():
 	print('Welcome to Tic Tac Toe!')
