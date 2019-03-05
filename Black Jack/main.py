@@ -52,3 +52,53 @@ class Hand:
             if self.value > 21:
                 self.value -= 10
                 self.aces -= 1
+
+class Chips:
+    
+    def __init__(self):
+        self.total = 100  # This can be set to a default value or supplied by a user input
+        self.bet = 0
+        
+    def win_bet(self):
+        self.total += self.bet
+    
+    def lose_bet(self):
+        self.total -= self.bet
+
+
+def take_bet():
+    while True:
+        try:
+            bet = int(input('Place your bet ')) 
+        except:
+            print("Unexpected error! Please try again ")
+        else:
+            break
+
+def hit(deck,hand):
+    hand.add_card(deck.deal())
+    hand.adjust_for_ace()
+
+def hit_or_stand(deck,hand):
+    global playing  # to control an upcoming while loop
+
+    while True:
+        try:
+            hit_or_stand = str(input('Hit or Stand? Enter h for Hit and s for Stand'))
+        except:
+            print('Please try again')
+        else:
+            if hit_or_stand.lower() == 'h':
+                hit(deck,hand)
+            elif hit_or_stand.lower() == 's':
+                playing = False
+            break                
+
+def show_some(player,dealer):
+    print("Player's hand :")
+    for item in player.cards:
+        print(f'\t{item}')
+    print(f'\tTotal={player.value} \n')
+    print("Dealer's hand :")
+    print('\t'+ str(dealer.cards[0]))
+    print(f'\tTotal={dealer.value}')            
