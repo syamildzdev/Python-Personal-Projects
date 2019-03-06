@@ -29,29 +29,35 @@ class Deck:
 		return '\n'.join([card.__str__() for card in self.deck])
 		
 	def shuffle(self):
+		# Shuffle the deck
 		random.shuffle(self.deck)
 		
 	def deal(self):
+		# This function will return the very end card in the Deck
 		return self.deck.pop()
 
 
 class Hand:
+
 	def __init__(self):
 		self.cards = []  # start with an empty list as we did in the Deck class
 		self.value = 0   # start with zero value
 		self.aces = 0    # add an attribute to keep track of aces
 	
 	def add_card(self,card):
+		# Add card to the hand while adding it's value
+		# If the card is an ace, increment self.aces
 		self.cards.append(card)
 		self.value += values[card.rank]
 		if card.rank == 'Ace':
 			self.aces += 1
 	
 	def adjust_for_ace(self):
-		if self.aces > 0:
-			if self.value > 21:
-				self.value -= 10
-				self.aces -= 1
+		# Adjust total value if total value > 21 and there is still Aces
+		# Then change aces' value to 1 instead of an 11
+		while self.aces and self.value > 21:
+			self.value -= 10
+			self.aces -= 1
 
 class Chips:
 	
@@ -60,31 +66,38 @@ class Chips:
 		self.bet = 0
 		
 	def win_bet(self):
+		# The amount of bet will be added to total chips
 		self.total += self.bet
 	
 	def lose_bet(self):
+		# The amount of bet will be deducted from total chips
 		self.total -= self.bet
 
 
 def take_bet(chips):
+	# Ask player the amount he want to bet
 	while True:
 		try:
 			chips.bet = int(input('Place your bet ')) 
 		except:
 			print("Please enter the amount of your bet in numbers")
 		else:
-			if chips.bet > chips.total:
+			if chips.bet > chips.total: # Bet chips control
 				print("Sorry, your bet can't exceed ",chips.total)
 			else:
 				break
 
+
 def hit(deck,hand):
+	# Hit means adding another card into one's hand while adjusting for the ace
 	hand.add_card(deck.deal())
 	hand.adjust_for_ace()
+
 
 def hit_or_stand(deck,hand):
 	global playing  # to control an upcoming while loop
 
+	# Ask player whether he wants to hit or stand
 	while True:
 		x = input("Would you like to Hit or Stand? Enter 'h' or 's' ")
 
@@ -98,7 +111,9 @@ def hit_or_stand(deck,hand):
 			continue
 		break
 
+
 def show_some(player,dealer):
+	# Show all cards except the Dealer's first card
 	print("\nPlayer's hand :")
 	for item in player.cards:
 		print(f'\t{item}')
@@ -111,7 +126,9 @@ def show_some(player,dealer):
 		total_dealer += values[dealer.cards[index].rank]
 	print(f'\tTotal={total_dealer}')
 	
+
 def show_all(player,dealer):
+	# Show all cards
 	print("\nPlayer's hand :")
 	for item in player.cards:
 		print(f'\t{item}')
@@ -122,24 +139,35 @@ def show_all(player,dealer):
 		print(f'\t{item}')
 	print(f'\tTotal={dealer.value}')
 
+
 def player_busts(chips):
+	# Loses bet when busts
 	chips.lose_bet()
 	print('\nDommage! You busts!')
 
+
 def player_wins(chips):
+	# Wins bet when busts
 	chips.win_bet()
 	print('\nCongratulations! You won the round!')
 
+
 def dealer_busts(chips):
+	# Win bet, Dealer lost
 	chips.win_bet()
 	print('\nDealer busts! Congratulations! You won the round!')
 	
+
 def dealer_wins(chips):
+	# Loses bet, lost to dealer
 	chips.lose_bet()
 	print('\nDealer wins!')
 	
+
 def push():
+	# Tie =
 	print("\nDealer and Player tie! It's a push.")    
+
 
 def main():
 	global playing
